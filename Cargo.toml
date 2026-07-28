@@ -13,7 +13,7 @@ name = "signal_sema_translator"
 path = "src/lib.rs"
 
 [dependencies]
-name-table = { git = "https://github.com/LiGoldragon/name-table.git", rev = "c3a4b472caa6d225bb9eb09b1893942cdb5fec9e" }
+name-table = { git = "https://github.com/LiGoldragon/name-table.git", rev = "1f558eac44bd03034e51ad98e3a65ec16d8b8411" }
 protos     = { git = "https://github.com/LiGoldragon/protos.git", rev = "0b4b17471053e8b40472225b5992cd3252e76d85" }
 rkyv       = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
 signal-frame = { git = "https://github.com/LiGoldragon/signal-frame.git", rev = "0786fbe8caf27552afcdd5deb85bc82ec6088337", default-features = false }
