@@ -1,15 +1,27 @@
 //! Typed wire and archive contract for the SEMA naming translator.
 //!
-//! This producer revision establishes the production root address spaces and
-//! their exact representations. The authority operation protocol builds on
-//! these types without moving them into the generic [`name_table`] substrate.
+//! This crate binds the production root address spaces to the generic
+//! [`name_table`] substrate and publishes the complete versioned authority
+//! request/reply/event contract. Runtime actors, embedded database ownership,
+//! and authorization decisions remain in `sema-translator`.
+
+mod failure;
+mod protocol;
+
+pub use failure::NoWriteFailure;
+pub use protocol::{
+    AuthorityCapability, AuthorityOperation, AuthorityReply, AuthorityRequest,
+    AuthorityRequestDigest, AuthorityRole, AuthorizationClaim, CONTRACT_BINDING, CommittedReceipt,
+    CurrentAuthority, DatabaseMarker, DeclarationNode, DtoConversionError, ExpectedTableGeneration,
+    ObservedHead, ObservedSnapshot, PostCommitEvent, PrincipalId, ReadOperation, ReferencePath,
+    Rename, RenameCommitReceipt, RustVocabularyCommitReceipt, RustVocabularyRelease,
+    RustVocabularyVersion, SealCommitReceipt, SealUniversal, SemaTranslatorContract,
+    TranslatorFrame, WritePrecondition,
+};
 
 use name_table::{Declaration, ModuleDeclaration, RootDeclaration, TableMutability};
 
 /// Current authority protocol version.
-///
-/// The full operation protocol is introduced by a later producer revision;
-/// root wire records already carry this explicit version.
 pub const PROTOCOL_VERSION: u16 = 1;
 
 /// Current translator archive version.
