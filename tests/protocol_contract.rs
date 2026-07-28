@@ -800,6 +800,7 @@ fn all_no_write_failure_variants_are_rkyv_frame_payloads() {
 #[test]
 fn full_encoded_id_chains_round_trip_for_both_roots_and_boundary_values() {
     for root in [VocabularyRoot::Universal, VocabularyRoot::Rust] {
+        assert!(VocabularyEncodedId::new(root, Vec::new()).is_err());
         for chain in [
             vec![LocalEncodedId::new(0)],
             vec![LocalEncodedId::new(u16::MAX)],
