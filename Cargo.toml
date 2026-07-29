@@ -1,6 +1,6 @@
 [package]
 name         = "signal-sema-translator"
-version      = "0.2.0"
+version      = "0.3.0"
 edition      = "2024"
 rust-version = "1.85"
 license      = "MIT OR Apache-2.0"
@@ -14,7 +14,7 @@ path = "src/lib.rs"
 
 [dependencies]
 name-table = { git = "https://github.com/LiGoldragon/name-table.git", rev = "50cb4bb53ae2dc4f2516f6912be328ef98ae49f8" }
-protos     = { git = "https://github.com/LiGoldragon/protos.git", rev = "0b4b17471053e8b40472225b5992cd3252e76d85" }
+protos     = { git = "https://github.com/LiGoldragon/protos.git", rev = "1343d0c405cdb6929552ea6b12c48739e73f35ab" }
 rkyv       = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
 signal-frame = { git = "https://github.com/LiGoldragon/signal-frame.git", rev = "0786fbe8caf27552afcdd5deb85bc82ec6088337", default-features = false }
 thiserror  = "2"
