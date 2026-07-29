@@ -8,8 +8,8 @@ use signal_frame::{BoundStreamingFrame, ContractBinding, WireContract};
 
 use crate::{
     NoWriteFailure, TablePolicyError, VocabularyEncodedId, VocabularyModuleTableHead,
-    VocabularyModuleTableSnapshot, VocabularyRenameReceipt, VocabularyRoot, VocabularySealReceipt,
-    VocabularyTableAddress,
+    VocabularyModuleTableSnapshot, VocabularyNameTable, VocabularyRenameReceipt, VocabularyRoot,
+    VocabularySealReceipt, VocabularyTableAddress,
 };
 
 /// The Protos-owned binding accepted by this contract revision.
@@ -161,6 +161,20 @@ impl DatabaseMarker {
             snapshot,
         }
     }
+
+    /// Return the exact marker produced by one succeeding atomic commit.
+    ///
+    /// The naming authority owns one embedded database and advances both
+    /// coordinates once for every state-and-receipt transaction.
+    pub const fn checked_successor(self) -> Option<Self> {
+        let Some(commit_sequence) = self.commit_sequence.checked_add(1) else {
+            return None;
+        };
+        let Some(snapshot) = self.snapshot.checked_add(1) else {
+            return None;
+        };
+        Some(Self::new(commit_sequence, snapshot))
+    }
 }
 
 /// Expected generation of one exact root-fronted table address.
@@ -183,8 +197,10 @@ pub struct WritePrecondition {
 
 /// Contract-wide digest of the canonical semantic request.
 ///
-/// The daemon computes this value. The caller does not supply it. It is stored
-/// atomically with the idempotency key and committed receipt.
+/// The producer-owned canonical digest function computes this value. A write
+/// caller does not supply it. The daemon stores it atomically with the
+/// idempotency key and committed receipt; a consumer may recompute it to bind a
+/// recovered durable receipt to the exact request it planned.
 #[derive(
     rkyv::Archive,
     rkyv::Serialize,
@@ -381,6 +397,22 @@ impl SealUniversal {
         )
     }
 
+    /// Compute the producer-owned digest of this request's canonical graph.
+    ///
+    /// Declaration and reference traversal order is canonicalized by
+    /// `name-table`. The operation key and write precondition are deliberately
+    /// outside this semantic graph: consumers bind those separately to the
+    /// receipt key and committed database marker.
+    pub fn canonical_request_digest(&self) -> Result<AuthorityRequestDigest, NoWriteFailure> {
+        let generic = VocabularyNameTable::new()
+            .request_digest(&self.lower())
+            .map_err(NoWriteFailure::from)?;
+        Ok(prefixed_digest(
+            b"sema-translator/seal-universal/v1",
+            generic.bytes(),
+        ))
+    }
+
     /// Raise a constrained generic request back into the production DTO.
     pub fn from_name_table(
         request: &SealRequest<VocabularyRoot>,
@@ -415,6 +447,14 @@ impl SealUniversal {
                 .collect(),
         })
     }
+}
+
+fn prefixed_digest(prefix: &[u8], material: &[u8; 32]) -> AuthorityRequestDigest {
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(&(prefix.len() as u64).to_le_bytes());
+    hasher.update(prefix);
+    hasher.update(material);
+    AuthorityRequestDigest::new(*hasher.finalize().as_bytes())
 }
 
 /// One identity-preserving operational spelling rename.

@@ -405,6 +405,36 @@ fn declaration_order_is_not_identity_or_digest_order() {
         left_receipt.changed_tables(),
         right_receipt.changed_tables()
     );
+    assert_eq!(
+        left.canonical_request_digest().expect("left digest"),
+        right.canonical_request_digest().expect("right digest")
+    );
+}
+
+#[test]
+fn producer_digest_and_database_successor_bind_receipt_materialization() {
+    let planned = seal_request(key(22));
+    let mut changed = planned.clone();
+    changed.references.push(reference(
+        VocabularyRoot::Universal,
+        &["billing", "line"],
+        "Amount",
+    ));
+
+    assert_ne!(
+        planned
+            .canonical_request_digest()
+            .expect("planned canonical digest"),
+        changed
+            .canonical_request_digest()
+            .expect("changed canonical digest")
+    );
+    assert_eq!(
+        DatabaseMarker::new(41, 73).checked_successor(),
+        Some(DatabaseMarker::new(42, 74))
+    );
+    assert_eq!(DatabaseMarker::new(u64::MAX, 73).checked_successor(), None);
+    assert_eq!(DatabaseMarker::new(41, u64::MAX).checked_successor(), None);
 }
 
 #[test]
