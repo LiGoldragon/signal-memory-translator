@@ -1,11 +1,11 @@
 [package]
 name         = "signal-sema-translator"
-version      = "0.4.1"
+version      = "0.5.0"
 edition      = "2024"
 rust-version = "1.85"
 license      = "MIT OR Apache-2.0"
 repository   = "https://github.com/LiGoldragon/signal-sema-translator"
-description  = "Typed wire and archive contract for the SEMA naming translator"
+description  = "Production vocabulary root enumeration and root-record codec for the SEMA naming translator"
 publish      = false
 
 [lib]
@@ -13,11 +13,8 @@ name = "signal_sema_translator"
 path = "src/lib.rs"
 
 [dependencies]
-blake3     = "1"
-name-table = { git = "https://github.com/LiGoldragon/name-table.git", rev = "a22f48d8040ab9235f3552ad8654ff8e27b8157d" }
-protos     = { git = "https://github.com/LiGoldragon/protos.git", rev = "cdc74bd28187bdb39b8ddc2228eef4934873dd45" }
+name-table = { git = "https://github.com/LiGoldragon/name-table.git", rev = "7dd5db15c16b4246c83d049c759415d3252a7d43" }
 rkyv       = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
-signal-frame = { git = "https://github.com/LiGoldragon/signal-frame.git", rev = "8aa0bcaeb29fe9e461a11706a469638d2fd109ac", default-features = false }
 thiserror  = "2"
 
 [lints.rust]
