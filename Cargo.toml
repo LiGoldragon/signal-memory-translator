@@ -1,15 +1,15 @@
 [package]
-name         = "signal-sema-translator"
+name         = "signal-memory-translator"
 version      = "0.5.0"
 edition      = "2024"
 rust-version = "1.85"
 license      = "MIT OR Apache-2.0"
-repository   = "https://github.com/LiGoldragon/signal-sema-translator"
-description  = "Production vocabulary root enumeration and root-record codec for the SEMA naming translator"
+repository   = "https://github.com/LiGoldragon/signal-memory-translator"
+description  = "Production vocabulary root enumeration and root-record codec for the MEMORY naming translator"
 publish      = false
 
 [lib]
-name = "signal_sema_translator"
+name = "signal_memory_translator"
 path = "src/lib.rs"
 
 [dependencies]

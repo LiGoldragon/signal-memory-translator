@@ -9,7 +9,7 @@ use signal_frame::{
     RootCode, SessionEpoch, StreamEventIdentifier, StreamingFrameBody, SubReply,
     SubscriptionTokenInner, VariantCode, WireRoute,
 };
-use signal_sema_translator::{
+use signal_memory_translator::{
     AuthorityCapability, AuthorityOperation, AuthorityReply, AuthorityRequest,
     AuthorityRequestDigest, AuthorityRole, AuthorizationClaim, CONTRACT_BINDING, CommittedReceipt,
     CurrentAuthority, DatabaseMarker, DeclarationNode, DtoConversionError, ExpectedTableGeneration,

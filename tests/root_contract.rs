@@ -2,7 +2,7 @@ use name_table::{
     Declaration, LocalEncodedId, ModuleDeclaration, Name, OperationKey, RenameRequest,
     RootDeclaration, SealRequest, TableAddress, TableMutability,
 };
-use signal_sema_translator::{
+use signal_memory_translator::{
     ARCHIVE_VERSION, PROTOCOL_VERSION, RootRecord, RootRecordError, RootRecordSurface,
     TablePolicyError, VocabularyNameTable, VocabularyRoot, module_declaration,
     rust_vocabulary_release, universal_declarations, validate_table_policy,

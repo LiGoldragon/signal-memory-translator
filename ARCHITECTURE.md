@@ -1,7 +1,7 @@
-# signal-sema-translator architecture
+# signal-memory-translator architecture
 
 This crate is the pure typed boundary shared by naming-authority clients and
-the `sema-translator` daemon. It owns production operation DTOs, reply and
+the `memory-translator` daemon. It owns production operation DTOs, reply and
 event records, root instantiation, and stable wire/archive representations. It
 contains no daemon actor, database connection, socket lifecycle, or
 application documents.
@@ -9,7 +9,7 @@ application documents.
 ## Bound frame
 
 Protos allocates `ContractId 4 / WireRevision 1` to this contract. The
-`SemaTranslatorContract` marker binds `TranslatorFrame` to that exact pair.
+`MemoryTranslatorContract` marker binds `TranslatorFrame` to that exact pair.
 `signal-frame` reads and validates the fixed eight-byte header before it
 byte-checks or deserializes the rkyv body. A different contract, an unsupported
 revision, an unbound legacy header, and a malformed archive therefore remain
@@ -76,7 +76,7 @@ the generations of every exact root-fronted table the writer depended on.
 Stale markers, stale generations, and duplicate expected-table records are
 typed no-write failures.
 
-The daemon computes an `AuthorityRequestDigest` from canonical semantic
+The daemon computes an `AuthorityRequestDigest` from canonical memoryntic
 request content. Successful seal, rename, and Rust-release receipts store the
 idempotency key in the nested-table receipt, the authority digest, operation
 result, and embedded-database marker atomically. Receipt reads recover a lost

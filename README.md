@@ -1,6 +1,6 @@
-# signal-sema-translator
+# signal-memory-translator
 
-Typed wire and archive contract for the SEMA naming authority.
+Typed wire and archive contract for the MEMORY naming authority.
 
 The crate instantiates the generic
 [`name-table`](https://github.com/LiGoldragon/name-table) substrate with the
@@ -25,5 +25,5 @@ spelling; it cannot express move, deletion, retirement, rebinding, or
 identity continuation.
 
 The sole-writer daemon and its embedded database live separately in
-`sema-translator`. This contract does not implement socket lifecycle,
+`memory-translator`. This contract does not implement socket lifecycle,
 authorization policy, Unix credential mapping, or runtime storage.

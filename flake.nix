@@ -1,5 +1,5 @@
 {
-  description = "signal-sema-translator — typed naming-authority contract";
+  description = "signal-memory-translator — typed naming-authority contract";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -36,7 +36,7 @@
           });
         };
         devShells.default = pkgs.mkShell {
-          name = "signal-sema-translator";
+          name = "signal-memory-translator";
           packages = [ pkgs.jujutsu toolchain ];
         };
       });

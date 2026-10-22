@@ -1,10 +1,10 @@
-//! Typed wire and archive contract for the SEMA naming translator.
+//! Typed wire and archive contract for the MEMORY naming translator.
 //!
 //! This crate binds the production root address spaces to the
 //! [`name_table`] substrate and publishes the production vocabulary
 //! root enumeration.  Runtime actors, embedded database ownership,
 //! authorization decisions, and the authority wire protocol remain in
-//! `sema-translator`.
+//! `memory-translator`.
 //!
 //! The transactional name-table protocol surface was removed when
 //! name-table 0.4.0 deleted the generic stateful table infrastructure
