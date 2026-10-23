@@ -1,6 +1,6 @@
 use signal_memory_translator::{
-    ARCHIVE_VERSION, PROTOCOL_VERSION, RootRecord, RootRecordError, RootRecordSurface,
-    VocabularyEncodedId, VocabularyRoot,
+    RootRecord, RootRecordError, RootRecordSurface, VocabularyEncodedId, VocabularyRoot,
+    ARCHIVE_VERSION, PROTOCOL_VERSION,
 };
 
 #[test]
@@ -25,6 +25,26 @@ fn wire_and_archive_records_round_trip_both_roots() {
         assert_eq!(RootRecord::decode_archive(&archive), Ok(root));
         assert_ne!(&wire[..4], &archive[..4]);
     }
+}
+
+#[test]
+fn wire_and_archive_records_match_exact_golden_bytes() {
+    assert_eq!(
+        RootRecord::encode_wire(VocabularyRoot::Universal),
+        *b"SSTW\x01\x00\x01"
+    );
+    assert_eq!(
+        RootRecord::encode_wire(VocabularyRoot::Rust),
+        *b"SSTW\x01\x00\x02"
+    );
+    assert_eq!(
+        RootRecord::encode_archive(VocabularyRoot::Universal),
+        *b"SSTA\x01\x00\x01"
+    );
+    assert_eq!(
+        RootRecord::encode_archive(VocabularyRoot::Rust),
+        *b"SSTA\x01\x00\x02"
+    );
 }
 
 #[test]
